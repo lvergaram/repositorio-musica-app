@@ -23,7 +23,6 @@ const getOneById = async(req,res) => {
 
 const create = async(req,res) => {
   try {
-    console.log(req.body)
     if (!req.body.titulo || !req.body.artista, !req.body.tono){
       return res.status(400).json({ok:false, msg:'se requiere titulo,artista y tono'})
     }
@@ -37,8 +36,40 @@ const create = async(req,res) => {
 }
 
 
+
+
+const update = async(req,res) => {
+  try {
+    const {id} = req.params
+    if (!req.body.titulo || !req.body.artista, !req.body.tono){
+      return res.status(400).json({ok:false, msg:'se requiere titulo,artista y tono'})
+    }
+    const updateSong = req.body
+    const response = await cancionModel.update(id,updateSong)
+    res.json(response)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ok:false})
+  }
+}
+
+const remove = async(req,res) => {
+  try {
+    const {id} = req.params
+
+    const response = await cancionModel.remove(id)
+    res.json(response)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ok:false})
+  }
+}
+
+
 export const cancionController = {
   getAll,
   getOneById,
-  create
+  create,
+  update,
+  remove
 }

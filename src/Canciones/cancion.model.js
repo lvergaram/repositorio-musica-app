@@ -49,31 +49,40 @@ const create = async(newSong) => {
   }
 } 
 
-const update = async() => {
+const update = async(id, updateSong) => {
   try {
+    const {titulo,artista,tono} = updateSong
     const query = {
       text:`
-        
+        UPDATE CANCIONES
+        SET 
+          titulo = $2,
+          artista = $3,
+          tono = $4
+        WHERE id = $1
+        RETURNING *
       `,
-      values:[]
+      values:[id, titulo,artista,tono]
     }
     const {rows:response} = await ddbb.query(query)
-    return response
+    return response[0]
   } catch (error) {
     throw error
   }
 } 
 
-const remove = async() => {
+const remove = async(id) => {
   try {
     const query = {
       text:`
-        
+        DELETE FROM CANCIONES
+        WHERE ID = $1
+        RETURNING *
       `,
-      values:[]
+      values:[id]
     }
     const {rows:response} = await ddbb.query(query)
-    return response
+    return response[0]
   } catch (error) {
     throw error
   }

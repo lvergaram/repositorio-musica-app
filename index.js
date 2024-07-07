@@ -1,19 +1,17 @@
 import express from "express";
 import 'dotenv/config';
-// import cuentaRouter from './cuentas/cuenta.routes.js';
-// import transferenciaRouter from './transferencias/transferencia.routes.js';
-
+import cancionRouter from './src/Canciones/cancion.routes.js';
 
 const app = express();
+const __dirname = import.meta.dirname
 
 app.use( express.json())
 app.use( express.urlencoded({extended:true}))
 
-// app.use('/api/v1/cuenta', cuentaRouter )
-// app.use('/api/v1/transferencia', transferenciaRouter )
+app.use('/api/v1/cancion', cancionRouter )
 
 app.get('/', (req, res)=>{
-  res.send('Holiwis')
+  res.sendFile(__dirname + '/index.html')
 })
 
 const PORT = process.env.PORT ?? 3000
